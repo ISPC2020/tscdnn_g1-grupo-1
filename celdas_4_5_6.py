@@ -48,7 +48,7 @@ def linear_activation_forward(A_prev, W, b, activation_fn):
         stores linear_cache and activation_cache. ((A_prev, W, b), Z) to be used in backpropagation.
     """
     assert activation_fn == "sigmoid" or activation_fn == "tanh" or \
-        activation_fn == "relu"
+           activation_fn == "relu"
 
     if activation_fn == "sigmoid":
         Z, linear_cache = linear_forward(A_prev, W, b)
@@ -110,28 +110,30 @@ def L_model_forward(X, parameters, hidden_layers_activation_fn="relu"):
 
     return AL, caches
 
-    # Compute cross-entropy cost
-    def compute_cost(AL, y):
-        """
-        Computes the binary Cross-Entropy cost.
 
-        Arguments
-        ---------
-        AL : 2d-array
-            probability vector of shape 1 x training_examples.
-        y : 2d-array
-            true "label" vector.
+# Compute cross-entropy cost
+def compute_cost(AL, y):
+    """
+    Computes the binary Cross-Entropy cost.
 
-        Returns
-        -------
-        cost : float
-            binary cross-entropy cost.
-        """
-        m = y.shape[1]
-        cost = - (1 / m) * np.sum(
-            np.multiply(y, np.log(AL)) + np.multiply(1 - y, np.log(1 - AL)))
+    Arguments
+    ---------
+    AL : 2d-array
+        probability vector of shape 1 x training_examples.
+    y : 2d-array
+        true "label" vector.
 
-        return cost
+    Returns
+    -------
+    cost : float
+        binary cross-entropy cost.
+    """
+    m = y.shape[1]
+    cost = - (1 / m) * np.sum(
+        np.multiply(y, np.log(AL)) + np.multiply(1 - y, np.log(1 - AL)))
+
+    return cost
+
 
 # Define derivative of activation functions w.r.t z that will be used in back-propagation
 def sigmoid_gradient(dA, Z):
@@ -302,14 +304,14 @@ def L_model_backward(AL, y, caches, hidden_layers_activation_fn="relu"):
 
     grads["dA" + str(L - 1)], grads["dW" + str(L)], grads[
         "db" + str(L)] = linear_activation_backward(
-            dAL, caches[L - 1], "sigmoid")
+        dAL, caches[L - 1], "sigmoid")
 
     for l in range(L - 1, 0, -1):
         current_cache = caches[l - 1]
         grads["dA" + str(l - 1)], grads["dW" + str(l)], grads[
             "db" + str(l)] = linear_activation_backward(
-                grads["dA" + str(l)], current_cache,
-                hidden_layers_activation_fn)
+            grads["dA" + str(l)], current_cache,
+            hidden_layers_activation_fn)
 
     return grads
 
@@ -335,8 +337,8 @@ def update_parameters(parameters, grads, learning_rate):
 
     for l in range(1, L + 1):
         parameters["W" + str(l)] = parameters[
-            "W" + str(l)] - learning_rate * grads["dW" + str(l)]
+                                       "W" + str(l)] - learning_rate * grads["dW" + str(l)]
         parameters["b" + str(l)] = parameters[
-            "b" + str(l)] - learning_rate * grads["db" + str(l)]
+                                       "b" + str(l)] - learning_rate * grads["db" + str(l)]
 
     return parameters
